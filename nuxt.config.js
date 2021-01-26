@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   target: 'static',
@@ -14,9 +12,6 @@ export default {
       { hid: 'description', name: 'description', content: '' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-  },
-  env: {
-    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
@@ -39,17 +34,11 @@ export default {
       'nuxt-i18n',
       {
         detectBrowserLanguage: {
-          useCookie: true,
+          useCookie: false,
           alwaysRedirect: true,
         },
         locales: [
           { code: 'et', iso: 'est', name: 'ET', full_name: 'Eesti keeles' },
-          {
-            code: 'evk',
-            iso: 'est',
-            name: 'EVK',
-            full_name: 'Eesti viipekeel',
-          },
           { code: 'ru', iso: 'rus', name: 'RU', full_name: 'По Pусски' },
           { code: 'en', iso: 'eng', name: 'EN', full_name: 'In English' },
         ],
@@ -59,7 +48,11 @@ export default {
         },
       },
     ],
+    '@nuxtjs/axios',
+    '~/modules/nuxt-generate-helper',
   ],
+
+  serverMiddleware: ['~/api/index.js'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},

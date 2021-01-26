@@ -11,6 +11,7 @@
     "lint": "yarn lint:js"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.12.5",
     "core-js": "^3.8.2",
     "nuxt": "^2.14.12",
     "nuxt-i18n": "^6.18.0"

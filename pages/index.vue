@@ -1,17 +1,16 @@
 <template>
   <section>
     <div>
-      <h1 class="title">{{ $store.state.siteData.title }}</h1>
-      <h1 class="title" v-if="data">{{ data.title }}</h1>
+      <h1 v-if="data" class="title">{{ data.title }}</h1>
       <div class="links">
         <div>
           Switch locale:
           <nuxt-link
-            class="button--green"
             v-for="(locale, index) in localesExcludingCurrent"
             :key="index"
             :exact="true"
             :to="switchLocalePath(locale.code)"
+            class="button--green"
             >{{ locale.code }}</nuxt-link
           >
         </div>
@@ -21,8 +20,6 @@
 </template>
 
 <script>
-import fetchApi from '~/utils/fetchApi'
-
 export default {
   computed: {
     localesExcludingCurrent() {
@@ -31,29 +28,8 @@ export default {
       )
     },
   },
-  async asyncData({ app }) {
-    let frontPagePath = ''
-
-    switch (app.i18n.locale) {
-      case 'en':
-        frontPagePath = 'front-page'
-        break
-      case 'ru':
-        frontPagePath = 'esileht-rus'
-        break
-
-      default:
-        frontPagePath = 'esileht'
-        break
-    }
-
-    const data = await fetchApi({
-      path: `pages/${frontPagePath}`,
-      params: {
-        lang: app.i18n.locale === 'evk' ? 'et' : app.i18n.locale,
-        acf: true,
-      },
-    })
+  async asyncData({ app, $axios, $origin }) {
+    const data = await $axios.$get(`${$origin()}/api/${app.i18n.locale}`)
 
     return {
       data,
